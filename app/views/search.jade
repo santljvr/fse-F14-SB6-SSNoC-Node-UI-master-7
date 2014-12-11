@@ -1,0 +1,124 @@
+doctype html
+html
+	include includes/head.jade
+	script(src='/js/jquery.cookie.js')
+	script(src='/js/search_page.js')
+	head
+	
+	body
+	include includes/navbar.jade
+	div#main
+		div.container
+			h3.text-center
+					| Search
+			br
+			div.row.text-center.col-sm-6.col-sm-offset-3.col-md-6.col-lg-6
+					form(action='/search', method='post')
+						div.form-group
+							select(name='option')
+								option(value='username') Search by name
+								option(value='status') Search by status
+								option(value='publicMessage') Search wall messages
+								option(value='announcement') Search announcements
+								option(value='chats') Search chats
+						div.form-group
+						input.name(type='text' class='form-control' name='searchInput' id="search" placeholder="Search for...")
+						
+						br
+						button.submit-search(type="submit" class="btn btn-success btn-lg") Search
+				div.results
+					if(onlineuserslist !== undefined)
+						div.row		
+						- each result in onlineuserslist	
+							div.col-xs-12.col-sm-12.col-md-12.col-lg-12							
+								br
+								label #{result.local.name}&nbsp&nbsp&nbsp
+									if(result.local.userStatusCode==="GREEN")
+											img(src="/img/green-dot.png" height=24)
+										if(result.local.userStatusCode==="RED")
+											img(src="/img/sts_danger.png" height=24)
+										if(result.local.userStatusCode==="YELLOW")
+											img(src="/img/sts_help.png" height=24)		
+					if(offlineuserslist !== undefined)
+						div.row		
+						- each result in offlineuserslist	
+							div.col-xs-12.col-sm-12.col-md-12.col-lg-12							
+								br
+								label #{result.local.name}&nbsp&nbsp&nbsp
+									if(result.local.userStatusCode==="GREEN")
+											img(src="/img/green-dot.png" height=24)
+										if(result.local.userStatusCode==="RED")
+											img(src="/img/sts_danger.png" height=24)
+										if(result.local.userStatusCode==="YELLOW")
+											img(src="/img/sts_help.png" height=24)		
+									
+					if(statusResults !== undefined)
+						div.row
+						- each result in statusResults
+							div.col-xs-12.col-sm-12.col-md-12.col-lg-12
+								br
+								label #{result.local.name}&nbsp&nbsp&nbsp
+									if(result.local.userStatusCode==="GREEN")
+											img(src="/img/green-dot.png" height=24)
+										if(result.local.userStatusCode==="RED")
+											img(src="/img/sts_danger.png" height=24)
+										if(result.local.userStatusCode==="YELLOW")
+											img(src="/img/sts_help.png" height=24)
+					
+					if(publicMessageResults != undefined)
+						div.row
+						- each result in publicMessageResults
+							div.col-xs-12.col-sm-12.col-md-12.col-lg-12
+								br
+								label #{result.local.author}&nbsp&nbsp&nbsp
+								label #{result.local.content}&nbsp&nbsp&nbsp
+								label #{result.local.postedAt}&nbsp&nbsp&nbsp
+								
+							
+					if(privateMessageResults != undefined)
+						div.row
+						- each result in privateMessageResults
+							div.col-xs-12.col-sm-12.col-md-12.col-lg-12
+								br
+								label #{result.local.author}&nbsp&nbsp&nbsp
+								label #{result.local.content}&nbsp&nbsp&nbsp
+								label #{result.local.postedAt}&nbsp
+								label #{result.local.locationDesc}
+						
+				
+					if(AnnouncementResults != undefined)
+						div.row
+						div.row.text-center.col-sm-10.col-sm-offset-10.col-md-10.col-lg-10
+						br
+						- each result in AnnouncementResults
+							div.col-xs-12.col-sm-12.col-md-12.col-lg-12
+								br
+								label #{result.local.content}&nbsp&nbsp&nbsp
+								label #{result.local.author}&nbsp&nbsp&nbsp
+								label #{result.local.title}&nbsp&nbsp&nbsp
+								label #{result.local.postAt}&nbsp&nbsp&nbsp
+								label #{result.local.locationDesc}&nbsp&nbsp&nbsp
+						
+					
+					
+								
+					//if(SearchChats !== undefined)
+						//if(SearchChats.length > 10)
+							//button(type="submit" class"btn btn-info btn-lg") Msg 	
+								//- each result in SearchChats
+									//- each val, key in result
+										//	if(key === "userName")
+											//		- sender == val					
+												//else if(key === "content")
+													//- message == val
+												//else if(key === "postedAt")
+													//- time == val 
+												//else
+													//- location == val
+											//div.row
+											//div.col-xs-12.col-sm-12.col-md-12.col-lg-12
+											//label #{sender} on #{time}
+											//br
+											//label #{result}
+											
+				
